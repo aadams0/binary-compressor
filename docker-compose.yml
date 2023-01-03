@@ -1,0 +1,40 @@
+services:  
+  rabbit:
+    hostname: rabbit
+    image: "rabbitmq:3-management"
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=mypass
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 10s
+      timeout: 10s
+      retries: 5
+
+  flask_app:
+    build: ./flask_app
+    ports:
+      - "5000:5000"
+    depends_on:
+      rabbit:
+        condition: service_healthy
+      worker:
+        condition: service_started
+    volumes:
+      - tmp:/tmp
+      - ./flask_app:/flask_app
+
+  worker:
+    build: './worker'
+    user: nobody
+    depends_on:
+      rabbit:
+        condition: service_healthy
+    volumes:
+      - tmp:/tmp
+      
+volumes:
+  tmp:

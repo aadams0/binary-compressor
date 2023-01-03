@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>
+      Binary File Compressor
+    </title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+  </head>
+  <body>
+    <h1>Binary File Compressor</h1>
+    <h2>Select a File</h2>
+    <form 
+      action="/"
+      method="post"
+      enctype="multipart/form-data"
+    >
+      <input value="Browse" type="file" id="file" name="file" accept=".bin">
+      <br>
+      <input type="submit" value="Compress (zlib)">
+    </form>
+    <br>
+    {% if file_name %}
+    <h2>✔️ {{file_name}}</h2>
+    <form
+      action="{{ url_for('download_file', task_id=task_id, file_name=file_name) }}"
+      method="get"
+      type="submit"
+    >
+      <button>
+          Download
+      </button>
+    </form>
+    <br>
+    <sub>
+      <b>Original Size:</b> {{original_size}} MB
+    </sub>
+    <sub>
+      <b>Compressed Size:</b> {{compressed_size}} MB
+    </sub>
+    <sub>
+      <b>Compression Ratio:</b> {{compression_ratio}}
+    </sub>
+    {% endif %}
+  </body>
+</html>

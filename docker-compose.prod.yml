@@ -1,0 +1,9 @@
+services:
+  flask_app:
+    ports:
+      - "80:80"
+    volumes:
+      - tmp:/tmp
+    command: 'gunicorn --bind 0.0.0.0:5000 wsgi:app'
+    environment:
+      - FLASK_DEBUG=false
