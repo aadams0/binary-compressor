@@ -1,7 +1,5 @@
 # Binary File Compressor
 
-*Alex Adams Bodyport Assessment*
-
 ## Getting Started
 
 Make sure you have Docker installed.
